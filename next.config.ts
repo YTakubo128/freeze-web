@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
+
+  // ルートページを/startにリダイレクトする
   async redirects(){
     return[
       {
@@ -12,6 +14,7 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // React Strict Modeを有効にする
   reactStrictMode: true,  
 };
 
