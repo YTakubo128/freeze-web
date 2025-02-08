@@ -9,8 +9,21 @@ import style from "./styles.module.scss";
 
 
 function Home() {
+  const { register, setValue, watch, handleSubmit} = useForm({
+    defaultValues: {
+      isMuted: false,
+    },
+  });
+  //音量調整
+  const isMuted = watch("isMuted");
+  const toggleMute = () => setValue("isMuted", !isMuted);
   return (
     <Theme>
+      <Box>
+        <Button onClick={toggleMute}>
+          { isMuted ? <SpeakerOffIcon/> : <SpeakerLoudIcon/> }
+        </Button>
+      </Box>
       
     </Theme>
   );
