@@ -9,6 +9,8 @@ import style from "./styles.module.scss";
 
 
 function Home() {
+  const router = useRouter();
+  //setting周り
   const { register, setValue, watch, handleSubmit} = useForm({
     defaultValues: {
       numOfPlayers: 4,
@@ -28,6 +30,12 @@ function Home() {
   //音量調整
   const isMuted = watch("isMuted");
   const toggleMute = () => setValue("isMuted", !isMuted);
+
+  //送信
+  const onSubmit = (data: any) => {
+    router.push("/game");
+  };
+
   return (
     <Theme>
       <Box>
@@ -44,6 +52,10 @@ function Home() {
         </Flex>
       </Box>
       
+      <Box>
+        <Text>看守と囚人はそれぞれの配置についてください。</Text>
+        <Button onClick={handleSubmit(onSubmit)}>スタート</Button>
+      </Box>
     </Theme>
   );
 }
