@@ -1,7 +1,7 @@
 import Image from "next/image";
-import "./styles.scss";
+import styles from "./styles.module.scss";
 
-function Game() {
+function Clear() {
   return (
     <div>
       
@@ -9,4 +9,4 @@ function Game() {
   );
 }
 
-export default Game;
+export default Clear;

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import "./styles.scss";
-import "./globals.css";
+import styles from "./styles.module.scss";
 
 function Start() {
   return (

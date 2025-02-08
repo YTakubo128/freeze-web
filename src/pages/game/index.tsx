@@ -1,5 +1,5 @@
 import Image from "next/image";
-import "./styles.scss";
+import styles from "./styles.module.scss";
 
 function Game() {
   return (
