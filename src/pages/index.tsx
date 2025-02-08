@@ -10,9 +10,9 @@ import style from "./styles.module.scss";
 
 function Home() {
   return (
-    <div>
+    <Theme>
       
-    </div>
+    </Theme>
   );
 }
 
