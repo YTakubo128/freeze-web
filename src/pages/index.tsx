@@ -33,28 +33,31 @@ function Home() {
 
   //送信
   const onSubmit = (data: any) => {
-    router.push("/game");
+    router.push({
+      pathname: "/game",
+      query: data,
+    });
   };
 
   return (
-    <Theme>
-      <Box>
-        <Button onClick={toggleMute}>
+    <Theme className={style.page}>
+      <Box className={style.setVolume}>
+        <Button onClick={toggleMute} radius="full">
           { isMuted ? <SpeakerOffIcon/> : <SpeakerLoudIcon/> }
         </Button>
       </Box>
-      <Box>
+      <Box className={style.setPlayers}>
         <Text>プレイ人数を選択してください</Text>
-        <Flex>
-          <Button onClick={decrementPlayers}><MinusIcon/></Button>
-          <Text>{numOfPlayers}</Text>
-          <Button onClick={incrementPlayers}><PlusIcon/></Button>
+        <Flex className={style.setPlayers__counter} align="center">
+          <Button onClick={decrementPlayers} radius="full"><MinusIcon/></Button>
+          <Text className={style.setPlayers__counter__text}>{numOfPlayers}</Text>
+          <Button onClick={incrementPlayers} radius="full"><PlusIcon/></Button>
         </Flex>
       </Box>
       
-      <Box>
+      <Box className={style.startGame}>
         <Text>看守と囚人はそれぞれの配置についてください。</Text>
-        <Button onClick={handleSubmit(onSubmit)}>スタート</Button>
+        <Button onClick={handleSubmit(onSubmit)} radius="full">スタート</Button>
       </Box>
     </Theme>
   );
