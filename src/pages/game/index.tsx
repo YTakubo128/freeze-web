@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { Theme, Box, Text } from "@radix-ui/themes";
+import { Theme, Flex, Box, Text } from "@radix-ui/themes";
 import styles from "./styles.module.scss";
 import { use } from "react";
 
@@ -9,6 +10,13 @@ function Game() {
   const router = useRouter();
   // ルートからのデータをクエリで取得
   const { numOfPlayers, isMuted } = router.query;
+  // クリア時に送信するデータ
+  const { register, setValue, watch, handleSubmit } = useForm({
+    defaultValues: {
+      isCleared: false,
+      remainTime: 0,
+    },
+  });
 
   // タイマーのカウントダウン処理
   const [count, setCount] = useState(10);
@@ -26,10 +34,14 @@ function Game() {
 
   return (
     <Theme>
+      // 
       <Box>
-        <Text>プレイヤー数:{numOfPlayers}</Text>
-        <Text>ミュート:{isMuted === "true" ? "オン" : "オフ"}</Text>
-        <Text>残り時間:{count}</Text>
+        <Text as="p">プレイヤー数:{numOfPlayers}</Text>
+        <Text as="p">ミュート:{isMuted === "true" ? "オン" : "オフ"}</Text>
+        <Text as="p">残り時間:{count}</Text>
+      </Box>
+      <Box>
+        <></>
       </Box>
     </Theme>
   );
