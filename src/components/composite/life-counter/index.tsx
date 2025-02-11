@@ -20,29 +20,38 @@ function LifeCounter({ numOfPlayer }: LifeCounterProps) {
   return(
     <Theme>
       <Button className={styles.lifeCounter} radius="large" color="gray" onClick={decrementLife}>
-        <span className={styles.lifeCounter__content}>
-          <span className={styles.lifeCounter__icon}>
-            <span className={styles.lifeCounter__icon__img}>
-              <Image
-                src="/img/img-prisoner.png"
-                alt="prisoner"
+        {life > 0 ? (
+            <span className={styles.lifeCounter__content}>
+              <span className={styles.lifeCounter__icon}>
+                <span className={styles.lifeCounter__icon__img}>
+                  <Image
+                    src="/img/img-prisoner.png"
+                    alt="prisoner"
 
-                width={100}
-                height={100}
-              />              
-            </span>
-            <span className={styles.lifeCounter__icon__num}>
-              <span className={styles.lifeCounter__life__content__txt__inline}>{numOfPlayer}</span>
-            </span>
-          </span>
-          <span className={styles.lifeCounter__life}>
-            <span className={styles.lifeCounter__life__content}>
-              <HeartFilledIcon color="red"/>
-              <Cross2Icon/>
-              <span className={styles.lifeCounter__life__content__txt}>{life}</span>
-            </span>
-          </span>
-        </span>
+                    width={100}
+                    height={100}
+                  />              
+                </span>
+                <span className={styles.lifeCounter__icon__num}>
+                  <span className={styles.lifeCounter__life__content__txt__inline}>{numOfPlayer}</span>
+                </span>
+              </span>
+              <span className={styles.lifeCounter__life}>
+                <span className={styles.lifeCounter__life__content}>
+                  <HeartFilledIcon color="red"/>
+                  <Cross2Icon/>
+                  <span className={styles.lifeCounter__life__content__txt}>{life}</span>
+                </span>
+              </span>
+            </span>            
+          ) : (
+            <Image
+              src="/img/img-arrest.png"
+              alt="out of play"
+              width={100}
+              height={100}
+            />
+          )}
       </Button>
     </Theme>
   );
