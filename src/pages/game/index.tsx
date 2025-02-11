@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Theme, Flex, Box, Text } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
 import styles from "./styles.module.scss";
-import { use } from "react";
+
+import LifeCounter from "@/components/composite/life-counter";
 
 function Game() {
   const router = useRouter();
@@ -31,18 +33,17 @@ function Game() {
 
 
   // 妨害演出
-
   return (
     <Theme>
-      // 
       <Box>
-        <Text as="p">プレイヤー数:{numOfPlayers}</Text>
         <Text as="p">ミュート:{isMuted === "true" ? "オン" : "オフ"}</Text>
         <Text as="p">残り時間:{count}</Text>
       </Box>
-      <Box>
-        <></>
-      </Box>
+      <Flex gap="10px">
+        {Array.from({ length: Number(numOfPlayers) }).map((_, index) => (
+          <LifeCounter key={index} numOfPlayer={index + 1} />
+        ))}
+      </Flex>
     </Theme>
   );
 }
