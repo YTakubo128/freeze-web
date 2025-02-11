@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useState } from "react";
 import { Theme, Box, Button } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { HeartFilledIcon, Cross2Icon } from "@radix-ui/react-icons";
@@ -8,14 +7,21 @@ import styles from "./styles.module.scss";
 
 interface LifeCounterProps {
   numOfPlayer: number;
+  onLifeDepleted?: () => void;
 }
 
-function LifeCounter({ numOfPlayer }: LifeCounterProps) {
+function LifeCounter({ numOfPlayer, onLifeDepleted }: LifeCounterProps) {
   const [life, setLife] = useState(3);
 
   const decrementLife = () => {
     if(life > 0) setLife(life - 1);
-  }
+  };
+
+  useEffect(() => {
+    if(life === 0 && onLifeDepleted){
+      onLifeDepleted();
+    }
+  }, [life, onLifeDepleted]);
 
   return(
     <Theme>

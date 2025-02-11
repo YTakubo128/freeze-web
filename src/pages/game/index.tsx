@@ -23,7 +23,7 @@ function Game() {
   // タイマーのカウントダウン処理
   const [count, setCount] = useState(10);
   useEffect(() => {
-    if(count > 0){
+    if (count > 0) {
       const timer = setInterval(() => {
         setCount((prev) => prev - 1);
       }, 1000);
@@ -31,17 +31,46 @@ function Game() {
     }
   }, [count]);
 
+  // プレイヤー処理
+  const numPlayers = Number(numOfPlayers);
+  const [lifeDepleted, setLifeDepleted] = useState<boolean[]>(numPlayers > 0 ? Array(numPlayers).fill(false) : []);
+
+  const handleLifeDepleted = (index: number) => {
+    setLifeDepleted((prev) => {
+      if (!prev[index]) {
+        const newLifeDepleted = [...prev];
+        newLifeDepleted[index] = true;
+        return newLifeDepleted;
+      }
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    const activePlayers = lifeDepleted.filter((depleted) => !depleted).length;
+    console.log("Active players:", activePlayers); // Debugging line
+    if (activePlayers === 1) {
+      console.log("Redirecting to /clear"); // Debugging line
+      router.push("/clear");
+    }
+  }, [lifeDepleted, router]);
 
   // 妨害演出
   return (
     <Theme>
       <Box>
-        <Text as="p">ミュート:{isMuted === "true" ? "オン" : "オフ"}</Text>
-        <Text as="p">残り時間:{count}</Text>
+        <Text as="p">ミュート: {isMuted === "true" ? "オン" : "オフ"}</Text>
+        <Text as="p">残り時間: {count}</Text>
       </Box>
       <Flex gap="10px">
-        {Array.from({ length: Number(numOfPlayers) }).map((_, index) => (
-          <LifeCounter key={index} numOfPlayer={index + 1} />
+        {Array.from({ length: numPlayers }).map((_, index) => (
+          <div key={index}>
+            <LifeCounter
+              numOfPlayer={index + 1}
+              onLifeDepleted={() => handleLifeDepleted(index)}
+            />
+            {lifeDepleted[index] && <p>Player {index + 1}'s life is depleted!</p>}
+          </div>
         ))}
       </Flex>
     </Theme>
