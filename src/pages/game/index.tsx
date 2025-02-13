@@ -27,7 +27,8 @@ function Game() {
   const [clickCount, setClickCount] = useState<number>(0);
   const totalClicks = 10; // 10回クリックで解除
   //音声オブジェクトの作成
-  const lightningSound = new Audio("/Electric_Shock06-1(Short).mp3");
+  const lightningSound = new Audio("/sound/Electric_Shock06-1(Short).mp3");
+
 
   useEffect(() => {
     if (isBlackoutVisible) {
@@ -52,7 +53,7 @@ function Game() {
   }, []);
   //停電中のクリック処理
   const handleBlackoutClick = () => {
-    lightningSound.play();
+    if(lightningSound) lightningSound.play();
     setClickCount((prevCount) => prevCount + 1);
     if (clickCount + 1 >= 10) { // 10回クリックで解除
       setIsBlackoutVisible(false);
