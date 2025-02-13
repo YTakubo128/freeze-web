@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Theme, Flex, Box, Text } from "@radix-ui/themes";
+import { Progress } from "radix-ui";
 import "@radix-ui/themes/styles.css";
 import styles from "./styles.module.scss";
 
@@ -21,15 +22,43 @@ function Game() {
   });
 
   // タイマーのカウントダウン処理
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(180);
+  const [isBlackoutVisible, setIsBlackoutVisible] = useState(false);
+  const [clickCount, setClickCount] = useState<number>(0);
+  const totalClicks = 10; // 10回クリックで解除
+  //音声オブジェクトの作成
+  const lightningSound = new Audio("/Electric_Shock06-1(Short).mp3");
+
   useEffect(() => {
+    if (isBlackoutVisible) {
+      return;
+    }
     if (count > 0) {
       const timer = setInterval(() => {
         setCount((prev) => prev - 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [count]);
+  }, [count, isBlackoutVisible]);
+
+  //確率で停電
+  useEffect(() => {
+    const blackoutTimer = setInterval(() => {
+      if (Math.random() < 0.1) { // 10%の確率で暗転
+        setIsBlackoutVisible(true);
+      }
+    }, 1000);
+    return () => clearInterval(blackoutTimer);
+  }, []);
+  //停電中のクリック処理
+  const handleBlackoutClick = () => {
+    lightningSound.play();
+    setClickCount((prevCount) => prevCount + 1);
+    if (clickCount + 1 >= 10) { // 10回クリックで解除
+      setIsBlackoutVisible(false);
+      setClickCount(0);
+    }
+  };
 
   // プレイヤー処理
   const numPlayers = Number(numOfPlayers);
@@ -46,6 +75,8 @@ function Game() {
     });
   };
 
+  const progress = Math.floor((clickCount / totalClicks) * 100);
+
   useEffect(() => {
     const activePlayers = lifeDepleted.filter((depleted) => !depleted).length;
     console.log("Active players:", activePlayers); // Debugging line
@@ -55,12 +86,23 @@ function Game() {
     }
   }, [lifeDepleted, router]);
 
-  // 妨害演出
   return (
-    <Theme>
-      <Box>
-        <Text as="p">ミュート: {isMuted === "true" ? "オン" : "オフ"}</Text>
-        <Text as="p">残り時間: {count}</Text>
+    <Theme className={styles.page}>
+      {isBlackoutVisible && (
+        <div className={styles.blackout} onClick={handleBlackoutClick}>
+          <Text className={styles.blackout__text}>停電中!! 連打して解除せよ！</Text>
+          <Progress.Root className={styles.Progress__Root} value={progress}>
+            <Progress.Indicator
+              className={styles.Progress__Indicator}
+              style={{ transform: `translateX(-${100 - progress}%)` }}
+            />
+          </Progress.Root>
+        </div>
+      )}
+      <Box className={styles.remainTime}>
+        <Text className={styles.remainTime__remain}>残</Text>
+        <Text className={styles.remainTime__time}>{count}</Text>
+        <Text className={styles.remainTime__byou}>秒</Text>
       </Box>
       <Flex className={styles.lifeCounter}>
         {Array.from({ length: numPlayers }).map((_, index) => (
