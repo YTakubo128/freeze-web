@@ -1,11 +1,12 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const isProd = process.env.NODE_ENV === 'production';
 
-  // URIを開いたらpages/index.tsxを表示する
-  // React Strict Modeを有効にする
-  reactStrictMode: true,  
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+  assetPrefix: isProd ? '/freeze-web/' : '',
+  basePath: isProd ? '/freeze-web' : '',
+  trailingSlash: true,
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
@@ -14,7 +15,6 @@ const nextConfig: NextConfig = {
 
     return config;
   },
-
   output: "export",
 };
 
