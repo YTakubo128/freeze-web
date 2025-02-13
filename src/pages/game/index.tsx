@@ -62,14 +62,13 @@ function Game() {
         <Text as="p">ミュート: {isMuted === "true" ? "オン" : "オフ"}</Text>
         <Text as="p">残り時間: {count}</Text>
       </Box>
-      <Flex gap="10px">
+      <Flex className={styles.lifeCounter}>
         {Array.from({ length: numPlayers }).map((_, index) => (
           <div key={index}>
             <LifeCounter
               numOfPlayer={index + 1}
               onLifeDepleted={() => handleLifeDepleted(index)}
             />
-            {lifeDepleted[index] && <p>Player {index + 1}'s life is depleted!</p>}
           </div>
         ))}
       </Flex>
