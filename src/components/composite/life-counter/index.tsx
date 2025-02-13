@@ -54,8 +54,8 @@ function LifeCounter({ numOfPlayer, onLifeDepleted }: LifeCounterProps) {
             <Image
               src="/img/img-arrest.png"
               alt="out of play"
-              width={100}
-              height={100}
+              width={80}
+              height={80}
             />
           )}
       </Button>
