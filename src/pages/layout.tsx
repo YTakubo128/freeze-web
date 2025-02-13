@@ -24,8 +24,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="jp">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel="stylesheet" href="./reset.min.css"/>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{margin: 0}}
       >
         <main>
           {children}
