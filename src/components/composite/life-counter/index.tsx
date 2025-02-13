@@ -12,9 +12,13 @@ interface LifeCounterProps {
 
 function LifeCounter({ numOfPlayer, onLifeDepleted }: LifeCounterProps) {
   const [life, setLife] = useState(3);
+  const clickSound = new Audio("/sound/click.mp3");
 
   const decrementLife = () => {
-    if(life > 0) setLife(life - 1);
+    if(life > 0) {
+      clickSound.play();
+      setLife(life - 1);
+    }
   };
 
   useEffect(() => {
