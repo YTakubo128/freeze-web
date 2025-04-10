@@ -1,4 +1,4 @@
-import Image from "next/image";
+//import Image from "next/image";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { Theme, Box, Flex, Text, Button } from "@radix-ui/themes";
@@ -11,7 +11,7 @@ import style from "./styles.module.scss";
 function Home() {
   const router = useRouter();
   //setting周り
-  const { register, setValue, watch, handleSubmit} = useForm({
+  const { setValue, watch, handleSubmit} = useForm({
     defaultValues: {
       numOfPlayers: 4,
       isMuted: false,

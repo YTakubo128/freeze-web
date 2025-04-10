@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+//import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { Theme, Flex, Box, Text, Button } from "@radix-ui/themes";
 import { Progress } from "radix-ui";
@@ -13,21 +13,21 @@ import LifeCounter from "@/components/composite/life-counter";
 function Game() {
   const router = useRouter();
   // ルートからのデータをクエリで取得
-  const { numOfPlayers, isMuted } = router.query;
+  const { numOfPlayers } = router.query;
   // クリア時に送信するデータ
-  const { register, setValue, watch, handleSubmit } = useForm({
-    defaultValues: {
-      isCleared: false,
-      remainTime: 0,
-    },
-  });
+  // const { register, setValue, watch, handleSubmit } = useForm({
+  //   defaultValues: {
+  //     isCleared: false,
+  //     remainTime: 0,
+  //   },
+  // });
 
   // タイマーのカウントダウン処理
   const [count, setCount] = useState(10);
   const [isBlackoutVisible, setIsBlackoutVisible] = useState(false);
   const [isAdsenseVisible, setIsAdsenseVisible] = useState(false);
   const [isPhoneCallVisible, setIsPhoneCallVisible] = useState(false);
-  const [isPhoneCallingVisible, setIsPhoneCallingVisible] = useState(false);
+  const [isPhoneCallingVisible] = useState(false);
   const [clickCount, setClickCount] = useState<number>(0);
   const totalClicks = 10; // 10回クリックで解除
   //音声オブジェクトの作成

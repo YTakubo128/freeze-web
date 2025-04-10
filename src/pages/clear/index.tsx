@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Theme, Box, Button } from "@radix-ui/themes";
+// import Image from "next/image";
+import { Theme, Button } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
-import styles from "./styles.module.scss";
+// import styles from "./styles.module.scss";
 import { useRouter } from 'next/router';
 
 const ClearPage = () => {

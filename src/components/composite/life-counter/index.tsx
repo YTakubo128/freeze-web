@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Theme, Box, Button } from "@radix-ui/themes";
+import { Theme, Button } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import { HeartFilledIcon, Cross2Icon } from "@radix-ui/react-icons";
 import styles from "./styles.module.scss";
