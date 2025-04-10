@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 //import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Theme, Flex, Box, Text, Button } from "@radix-ui/themes";
 import { Progress } from "radix-ui";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -23,25 +23,36 @@ function Game() {
   // });
 
   // タイマーのカウントダウン処理
-  const [count, setCount] = useState(10);
+  const [count, setCount] = useState(180);
   const [isBlackoutVisible, setIsBlackoutVisible] = useState(false);
   const [isAdsenseVisible, setIsAdsenseVisible] = useState(false);
   const [isPhoneCallVisible, setIsPhoneCallVisible] = useState(false);
   const [isPhoneCallingVisible] = useState(false);
   const [clickCount, setClickCount] = useState<number>(0);
   const totalClicks = 10; // 10回クリックで解除
-  //音声オブジェクトの作成
-  const lightningSound = new Audio("/sound/Electric_Shock06-1(Short).mp3");
-  const error = new Audio("/sound/error.mp3");
-  const alert90Sound = new Audio("/sound/sec90.mp3");
-  const alert120Sound = new Audio("/sound/sec120.mp3");
-  const alert150Sound = new Audio("/sound/sec150.mp3");
-  const callendSound = new Audio("/sound/callend.mp3");
-  const callmelo = new Audio("/sound/callmelo (mp3cut.net).mp3");
-  callmelo.volume = 0.5;
-  const call = new Audio("/sound/call.mp3");
-  call.volume = 1;
 
+  const lightningSoundRef = useRef<HTMLAudioElement | null>(null);
+  const errorSoundRef = useRef<HTMLAudioElement | null>(null);
+  const alert90SoundRef = useRef<HTMLAudioElement | null>(null);
+  const alert120SoundRef = useRef<HTMLAudioElement | null>(null);
+  const alert150SoundRef = useRef<HTMLAudioElement | null>(null);
+  const callendSoundRef = useRef<HTMLAudioElement | null>(null);
+  const callmeloRef = useRef<HTMLAudioElement | null>(null);
+  const callSoundRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // クライアントサイドでのみ音声オブジェクトを作成
+    lightningSoundRef.current = new Audio("/sound/Electric_Shock06-1(Short).mp3");
+    errorSoundRef.current = new Audio("/sound/error.mp3");
+    alert90SoundRef.current = new Audio("/sound/sec90.mp3");
+    alert120SoundRef.current = new Audio("/sound/sec120.mp3");
+    alert150SoundRef.current = new Audio("/sound/sec150.mp3");
+    callendSoundRef.current = new Audio("/sound/callend.mp3");
+    callmeloRef.current = new Audio("/sound/callmelo (mp3cut.net).mp3");
+    callmeloRef.current.volume = 0.5;
+    callSoundRef.current = new Audio("/sound/call.mp3");
+    callSoundRef.current.volume = 1;
+  }, []);
 
   useEffect(() => {
     if (isBlackoutVisible || isAdsenseVisible || isPhoneCallVisible || isPhoneCallingVisible) {
@@ -59,13 +70,13 @@ function Game() {
 
   useEffect(() => {
     if(count === 90){
-      if(alert90Sound) alert90Sound.play();
+      if(alert90SoundRef.current) alert90SoundRef.current.play();
     }
     if(count === 60){
-      if(alert120Sound) alert120Sound.play();
+      if(alert120SoundRef.current) alert120SoundRef.current.play();
     }
     if(count === 30){
-      if(alert150Sound) alert150Sound.play();
+      if(alert150SoundRef.current) alert150SoundRef.current.play();
     }
   }, [count]);
 
@@ -77,13 +88,13 @@ function Game() {
       }
       if (Math.random() < 0.1) { // 10%の確率でイベント発生
         if (Math.random() < 0.33) {
-          if (error) error.play();
+          if (errorSoundRef.current) errorSoundRef.current.play();
           setIsBlackoutVisible(true);
         } else if (Math.random() < 0.5) {
-          if (error) error.play();
+          if (errorSoundRef.current) errorSoundRef.current.play();
           setIsAdsenseVisible(true);
         } else {
-          if (callmelo) callmelo.play();
+          if (callmeloRef.current) callmeloRef.current.play();
           setIsPhoneCallVisible(true);
         }
       }
@@ -92,7 +103,7 @@ function Game() {
   }, [isBlackoutVisible, isAdsenseVisible, isPhoneCallVisible, isPhoneCallingVisible]);
   //停電中のクリック処理
   const handleBlackoutClick = () => {
-    if(lightningSound) lightningSound.play();
+    if(lightningSoundRef.current) lightningSoundRef.current.play();
     setClickCount((prevCount) => prevCount + 1);
     if (clickCount + 1 >= 10) { // 10回クリックで解除
       setIsBlackoutVisible(false);
@@ -106,20 +117,20 @@ function Game() {
   //電話を閉じる処理
   const handleClosePhoneCall = () => {
     setIsPhoneCallVisible(false);
-    if(callmelo && callmelo.currentTime > 0 && !callmelo.paused){
+    if(callmeloRef.current && callmeloRef.current.currentTime > 0 && !callmeloRef.current.paused){
       console.log("callmelo is stop"); // Debugging line
-      console.log("callmelo before pause:", callmelo); // Debugging line
-      callmelo.pause();
-      callmelo.currentTime = 0;
-      console.log("callmelo paused:", callmelo.paused); // Debugging line
-      console.log("callmelo currentTime:", callmelo.currentTime); // Debugging line
+      console.log("callmelo before pause:", callmeloRef.current); // Debugging line
+      callmeloRef.current.pause();
+      callmeloRef.current.currentTime = 0;
+      console.log("callmelo paused:", callmeloRef.current.paused); // Debugging line
+      console.log("callmelo currentTime:", callmeloRef.current.currentTime); // Debugging line
     } else {
-      callmelo.pause();
+      callmeloRef.current.pause();
       console.log("callmelo is either null or already paused");
-      console.log("callmelo object:", callmelo); // Debugging line
+      console.log("callmelo object:", callmeloRef.current); // Debugging line
     }
-    if(callendSound) callendSound.play();
-    if(call) call.play();
+    if(callendSoundRef.current) callendSoundRef.current.play();
+    if(callSoundRef.current) callSoundRef.current.play();
 };
 
   // プレイヤー処理
