@@ -7,6 +7,10 @@ import "@radix-ui/themes/styles.css";
 
 import style from "./styles.module.scss";
 
+type FormData = {
+  numOfPlayers: number;
+  isMuted: boolean;
+};
 
 function Home() {
   const router = useRouter();
@@ -32,7 +36,7 @@ function Home() {
   const toggleMute = () => setValue("isMuted", !isMuted);
 
   //送信
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormData) => {
     router.push({
       pathname: "/game",
       query: data,
