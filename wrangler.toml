@@ -1,7 +1,0 @@
-name = "worker-name" # 任意の名前を設定
-type = "javascript"
-compatibility_date = "2025-04-10"
-
-[site]
-bucket = "./out" # 静的アセットが配置されているディレクトリを指定
-entry-point = "workers-site"
