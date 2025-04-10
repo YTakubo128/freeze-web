@@ -125,7 +125,6 @@ function Game() {
       console.log("callmelo paused:", callmeloRef.current.paused); // Debugging line
       console.log("callmelo currentTime:", callmeloRef.current.currentTime); // Debugging line
     } else {
-      callmeloRef.current.pause();
       console.log("callmelo is either null or already paused");
       console.log("callmelo object:", callmeloRef.current); // Debugging line
     }
